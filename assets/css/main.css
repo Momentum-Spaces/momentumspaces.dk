@@ -1,0 +1,573 @@
+/* ============================================================
+   Momentum — momentumspaces.dk
+   Static build of the "Website v2" editorial design.
+   Sections in source order:
+     1) Self-hosted webfonts (Aktifo A display + Hanken Grotesk body)
+     2) Design tokens + base type  (from colors_and_type.css)
+     3) V2 layout                  (from styles-v2.css)
+     4) Orbital mark + static-site additions
+   No JavaScript, no external CDNs.
+   ============================================================ */
+
+/* ---- 1a. Display / brand face: Aktifo A — self-hosted, weights 300/400/500 ---- */
+@font-face { font-family:"Aktifo A"; src:url("../fonts/aktifo-a-light.ttf")  format("truetype"); font-weight:300; font-style:normal; font-display:swap; }
+@font-face { font-family:"Aktifo A"; src:url("../fonts/aktifo-a-book.ttf")   format("truetype"); font-weight:400; font-style:normal; font-display:swap; }
+@font-face { font-family:"Aktifo A"; src:url("../fonts/aktifo-a-medium.ttf") format("truetype"); font-weight:500; font-style:normal; font-display:swap; }
+
+/* ---- 1b. Body / UI face: Hanken Grotesk — self-hosted woff2 (GDPR-safe, no Google) ---- */
+@font-face { font-family:"Hanken Grotesk"; font-style:normal; font-weight:400; font-display:swap; src:url("../fonts/hanken-grotesk-400-latin-ext.woff2") format("woff2"); unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF; }
+@font-face { font-family:"Hanken Grotesk"; font-style:normal; font-weight:400; font-display:swap; src:url("../fonts/hanken-grotesk-400-latin.woff2") format("woff2"); unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+@font-face { font-family:"Hanken Grotesk"; font-style:normal; font-weight:500; font-display:swap; src:url("../fonts/hanken-grotesk-500-latin-ext.woff2") format("woff2"); unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF; }
+@font-face { font-family:"Hanken Grotesk"; font-style:normal; font-weight:500; font-display:swap; src:url("../fonts/hanken-grotesk-500-latin.woff2") format("woff2"); unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+@font-face { font-family:"Hanken Grotesk"; font-style:normal; font-weight:600; font-display:swap; src:url("../fonts/hanken-grotesk-600-latin-ext.woff2") format("woff2"); unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF; }
+@font-face { font-family:"Hanken Grotesk"; font-style:normal; font-weight:600; font-display:swap; src:url("../fonts/hanken-grotesk-600-latin.woff2") format("woff2"); unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+@font-face { font-family:"Hanken Grotesk"; font-style:normal; font-weight:700; font-display:swap; src:url("../fonts/hanken-grotesk-700-latin-ext.woff2") format("woff2"); unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF; }
+@font-face { font-family:"Hanken Grotesk"; font-style:normal; font-weight:700; font-display:swap; src:url("../fonts/hanken-grotesk-700-latin.woff2") format("woff2"); unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+
+/* ------------------------------------------------------------
+   2. Design tokens + base type (from colors_and_type.css)
+   ------------------------------------------------------------ */
+:root {
+  /* ---------- INK & PAPER (the brand is monochrome) ---------- */
+  --ink:        #121110;   /* warm near-black — primary text & marks   */
+  --ink-soft:   #2C2A27;   /* softened ink for large headlines          */
+  --paper:      #FFFFFF;   /* pure white                                */
+  --bone:       #F7F5F0;   /* warm off-white — default page background  */
+  --bone-deep:  #EFEBE3;   /* slightly deeper warm panel                */
+
+  /* ---------- WARM NEUTRAL SCALE (greige) ---------- */
+  --n-50:  #F7F5F0;
+  --n-100: #EEEAE2;
+  --n-200: #E2DDD2;
+  --n-300: #CFC8BA;
+  --n-400: #ABA293;
+  --n-500: #847C70;
+  --n-600: #605A51;
+  --n-700: #45413A;
+  --n-800: #2C2A27;
+  --n-900: #1A1917;
+
+  /* ---------- ACCENT — warm sand / clay ----------
+     INFERRED, not from the supplied logo (which is strictly B/W).
+     Use sparingly: focus rings, the orbit dot, small highlights,
+     active underlines. Never as a large fill.                  */
+  --clay:        #B0855E;
+  --clay-deep:   #8F6843;
+  --clay-soft:   #E8DAC9;
+
+  /* ---------- SEMANTIC SURFACES & TEXT ---------- */
+  --bg:           var(--bone);
+  --surface:      var(--paper);
+  --surface-2:    var(--bone-deep);
+  --fg1:          var(--ink);     /* primary text            */
+  --fg2:          var(--n-600);   /* secondary text          */
+  --fg3:          var(--n-500);   /* muted / captions        */
+  --fg-invert:    var(--paper);   /* text on ink             */
+  --line:         var(--n-200);   /* hairline borders        */
+  --line-strong:  var(--n-300);
+  --focus:        var(--clay);
+
+  /* ---------- SEMANTIC STATUS (muted, restrained) ---------- */
+  --ok:    #5B6E50;
+  --warn:  #A8772E;
+  --err:   #9C4A3C;
+
+  /* ---------- TYPE FAMILIES ---------- */
+  --font-display: "Aktifo A", "Futura", "Century Gothic", system-ui, sans-serif;
+  --font-body:    "Hanken Grotesk", -apple-system, "Segoe UI", system-ui, sans-serif;
+  --font-mono:    "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  /* ---------- TYPE SCALE (1.250 major-third-ish, tuned) ---------- */
+  --t-display: 4.5rem;   /* 72 — hero wordmark moments  */
+  --t-h1:      3rem;     /* 48                          */
+  --t-h2:      2.125rem; /* 34                          */
+  --t-h3:      1.5rem;   /* 24                          */
+  --t-h4:      1.1875rem;/* 19                          */
+  --t-lead:    1.3125rem;/* 21 — intro paragraphs       */
+  --t-body:    1rem;     /* 16                          */
+  --t-small:   0.875rem; /* 14                          */
+  --t-xs:      0.75rem;  /* 12 — labels / eyebrows      */
+
+  /* ---------- TRACKING ---------- */
+  --track-wordmark: 0.42em;  /* the MOMENTUM wordmark feel */
+  --track-eyebrow:  0.26em;
+  --track-display:  0.04em;
+  --track-tight:   -0.01em;
+
+  /* ---------- SPACING (8pt base, generous Scandinavian whitespace) ---------- */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 24px;
+  --sp-6: 32px;
+  --sp-7: 48px;
+  --sp-8: 64px;
+  --sp-9: 96px;
+  --sp-10: 128px;
+
+  /* ---------- RADII (small — restrained, architectural) ---------- */
+  --r-xs: 2px;
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 14px;
+  --r-pill: 999px;
+
+  /* ---------- SHADOWS (soft, warm-tinted, low) ---------- */
+  --shadow-sm: 0 1px 2px rgba(26, 25, 23, 0.05);
+  --shadow-md: 0 4px 16px rgba(26, 25, 23, 0.07);
+  --shadow-lg: 0 18px 48px rgba(26, 25, 23, 0.12);
+
+  /* ---------- MOTION ---------- */
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1); /* @kind other */  /* calm ease-out */
+  --ease-soft: cubic-bezier(0.4, 0, 0.2, 1); /* @kind other */
+  --dur-fast: 140ms; /* @kind other */
+  --dur: 240ms; /* @kind other */
+  --dur-slow: 420ms; /* @kind other */
+}
+
+/* ============================================================
+   SEMANTIC ELEMENT STYLES
+   ============================================================ */
+
+.m-eyebrow {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--t-xs);
+  letter-spacing: var(--track-eyebrow);
+  text-transform: uppercase;
+  color: var(--fg3);
+}
+
+.m-wordmark {
+  font-family: var(--font-display);
+  font-weight: 300;
+  letter-spacing: var(--track-wordmark);
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+h1, .m-h1 {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: var(--t-h1);
+  line-height: 1.06;
+  letter-spacing: var(--track-display);
+  color: var(--fg1);
+}
+
+h2, .m-h2 {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: var(--t-h2);
+  line-height: 1.12;
+  letter-spacing: var(--track-display);
+  color: var(--fg1);
+}
+
+h3, .m-h3 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--t-h3);
+  line-height: 1.2;
+  color: var(--fg1);
+}
+
+h4, .m-h4 {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: var(--t-h4);
+  line-height: 1.3;
+  color: var(--fg1);
+}
+
+.m-lead {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: var(--t-lead);
+  line-height: 1.5;
+  color: var(--fg2);
+}
+
+p, .m-body {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: var(--t-body);
+  line-height: 1.6;
+  color: var(--fg2);
+  text-wrap: pretty;
+}
+
+small, .m-small {
+  font-family: var(--font-body);
+  font-size: var(--t-small);
+  line-height: 1.5;
+  color: var(--fg3);
+}
+
+code, .m-mono {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  letter-spacing: -0.01em;
+}
+
+/* ------------------------------------------------------------
+   3. V2 layout (from styles-v2.css; photo paths point to ../photos/)
+   ------------------------------------------------------------ */
+/* ============================================================
+   Momentum — Website v2.0
+   Editorial / fuldbredde-foto-retning. Mindre hvid, mere
+   kontrast og rytme. Bygger på ../../colors_and_type.css.
+   Klasser med prefix mw2- så de ikke kolliderer med v1.
+   ============================================================ */
+
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  font-family: var(--font-body);
+  color: var(--fg1);
+  background: var(--paper);
+}
+.mw2-scroll { height: 100vh; overflow-y: auto; scroll-behavior: smooth; }
+
+/* ---------- shared atoms ---------- */
+.mw2-eyebrow {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 12px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--clay-deep);
+  margin: 0;
+}
+.mw2-eyebrow-light { color: var(--clay); }
+.mw2-eyebrow-invert { color: rgba(255,255,255,0.62); }
+
+.mw2-h2 {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(32px, 4.4vw, 52px);
+  line-height: 1.05;
+  letter-spacing: 0.01em;
+  color: var(--ink);
+  margin: 16px 0 0;
+}
+.mw2-h2-invert { color: #fff; }
+.mw2-lead {
+  font-size: 19px;
+  line-height: 1.58;
+  color: var(--fg2);
+  max-width: 46ch;
+  margin: 22px 0 0;
+}
+.mw2-lead-invert { color: rgba(255,255,255,0.78); }
+
+.mw2-wrap { max-width: 1240px; margin: 0 auto; padding-left: 40px; padding-right: 40px; }
+
+/* ---------- header (over hero, transparent → solid) ---------- */
+.mw2-header {
+  position: sticky; top: 0; z-index: 60;
+  background: rgba(247,245,240,0.92);
+  backdrop-filter: blur(14px) saturate(1.1);
+  border-bottom: 1px solid var(--line);
+}
+.mw2-header-inner {
+  max-width: 1240px; margin: 0 auto;
+  padding: 18px 40px;
+  display: flex; align-items: center; gap: 28px;
+}
+.mw2-brand { display: flex; align-items: center; text-decoration: none; }
+.mw2-brand-logo { height: 30px; display: block; }
+.mw2-header-cta {
+  margin-left: auto;
+  font-family: var(--font-body);
+  font-size: 14.5px; font-weight: 500; letter-spacing: 0.01em;
+  text-decoration: none; color: var(--ink); white-space: nowrap;
+  position: relative; padding: 4px 0;
+}
+.mw2-header-cta::after {
+  content: ""; position: absolute; left: 0; bottom: 0;
+  width: 100%; height: 1px; background: var(--line-strong);
+  transition: background var(--dur) var(--ease);
+}
+.mw2-header-cta:hover { color: var(--ink); }
+.mw2-header-cta:hover::after { background: var(--clay); }
+
+/* ---------- hero (full-bleed harbour photo, light, with text panel) ---------- */
+.mw2-hero {
+  position: relative;
+  height: 80vh; min-height: 560px;
+  overflow: hidden;
+  background: var(--bone-deep) url("../photos/havnen.jpg") center 50% / cover no-repeat;
+}
+.mw2-hero-grid {
+  position: relative; z-index: 2;
+  height: 100%;
+  max-width: 1240px; margin: 0 auto; padding: 0 40px;
+  display: grid;
+  grid-template-rows: 50% 50%;
+}
+.mw2-hero-top { align-self: end; padding-bottom: 6px; }
+.mw2-hero-bottom { align-self: start; padding-top: 0; }
+.mw2-hero-h1 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(42px, 6vw, 80px);
+  line-height: 1.14;
+  letter-spacing: 0.004em;
+  margin: 0;
+  text-align: left;
+}
+.mw2-hero-lead {
+  font-size: clamp(18px, 1.7vw, 22px);
+  line-height: 1.5;
+  color: #fff;
+  max-width: none;
+  margin: 16px 0 0;
+  text-align: left;
+  text-shadow: 0 2px 4px rgba(18,17,16,0.95), 0 2px 11px rgba(18,17,16,0.85), 0 1px 24px rgba(18,17,16,0.8), 0 0 2px rgba(18,17,16,0.85);
+}
+/* per-line highlighter bands hugging each line's length (heading only) */
+.mw2-mark {
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  color: #fff;
+  background-image: linear-gradient(rgba(18,17,16,0.5), rgba(18,17,16,0.5));
+  background-repeat: no-repeat;
+  background-size: 100% 1.02em;
+  background-position: 0 0;
+  padding: 0.24em 0.4em 0 0.4em;
+}
+
+/* orbit mark (reuse OrbitMark component) */
+.mw2-orbit-wrap { width: 100%; height: 100%; }
+
+/* ---------- principper — dark ink band ---------- */
+.mw2-ink {
+  background: var(--ink); color: #fff;
+}
+.mw2-section { padding: 104px 0; }
+.mw2-section-tight { padding: 88px 0; }
+.mw2-head { margin-bottom: 56px; max-width: 30ch; }
+.mw2-head-center { margin-left: auto; margin-right: auto; text-align: center; max-width: 640px; }
+.mw2-head-wide { max-width: none; }
+.mw2-head-wide .mw2-h2 { font-size: clamp(28px, 3.4vw, 44px); }
+
+.mw2-principles {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 0;
+}
+.mw2-principle {
+  padding: 40px 36px 8px 0;
+  border-right: 1px solid rgba(255,255,255,0.16);
+}
+.mw2-principle:last-child { border-right: none; padding-right: 0; }
+.mw2-principle:not(:first-child) { padding-left: 36px; }
+.mw2-principle-num {
+  font-family: var(--font-display); font-weight: 300;
+  font-size: 15px; letter-spacing: 0.18em; color: var(--clay); margin-bottom: 26px;
+}
+.mw2-principle-t {
+  font-family: var(--font-display); font-weight: 400;
+  font-size: 24px; letter-spacing: 0.01em; color: #fff; margin: 0 0 14px;
+}
+.mw2-principle-d { font-size: 15.5px; line-height: 1.6; color: rgba(255,255,255,0.68); margin: 0; }
+
+/* ---------- split (image + text, edge to edge) ---------- */
+.mw2-split {
+  display: grid; grid-template-columns: 1fr 1fr; align-items: stretch; min-height: 620px;
+}
+.mw2-split-media { position: relative; overflow: hidden; min-height: 420px; background: var(--bone-deep); }
+.mw2-split-media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.mw2-split-text {
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 96px clamp(40px, 7vw, 104px);
+}
+/* keep the reverse-split text aligned to the page grid on wide screens */
+.mw2-split-reverse .mw2-split-text {
+  padding-left: max(clamp(40px, 7vw, 104px), calc((100vw - 1240px) / 2));
+}
+.mw2-split-bone { background: var(--bone); }
+.mw2-split-paper { background: var(--paper); }
+.mw2-split-deep { background: var(--bone-deep); }
+
+.mw2-facts { list-style: none; padding: 0; margin: 40px 0 0; display: flex; flex-direction: column; }
+.mw2-fact {
+  display: flex; align-items: center; gap: 16px;
+  padding: 16px 0; border-top: 1px solid var(--line);
+  font-size: 16px; font-weight: 500; color: var(--ink);
+}
+.mw2-fact:last-child { border-bottom: 1px solid var(--line); }
+
+/* ---------- amenities — editorial table ---------- */
+.mw2-amenities {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+}
+.mw2-amenity {
+  padding: 34px 30px 34px 0;
+  border-bottom: 1px solid var(--line);
+  border-right: 1px solid var(--line);
+}
+.mw2-amenity:nth-child(3n) { border-right: none; padding-right: 0; }
+.mw2-amenity:nth-child(n+4) { border-bottom: none; }
+.mw2-amenity:not(:nth-child(3n)) { padding-right: 30px; }
+.mw2-amenity:not(:nth-child(3n+1)) { padding-left: 30px; }
+.mw2-amenity-num {
+  font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.1em;
+  color: var(--clay-deep); margin-bottom: 18px;
+}
+.mw2-amenity-t {
+  font-family: var(--font-display); font-weight: 400; font-size: 22px;
+  letter-spacing: 0.01em; color: var(--ink); margin: 0 0 10px;
+}
+.mw2-amenity-d { font-size: 14.5px; line-height: 1.55; color: var(--fg2); margin: 0; }
+
+/* ---------- location — full-bleed image with text card ---------- */
+.mw2-location {
+  position: relative; min-height: 660px; display: flex; align-items: center;
+  overflow: hidden; background: var(--ink);
+}
+.mw2-location-img {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; object-position: center 45%; z-index: 0;
+}
+/* placeholder until the real photo is supplied */
+.mw2-location-ph {
+  background:
+    linear-gradient(125deg, var(--n-300) 0%, var(--bone-deep) 52%, var(--n-200) 100%);
+}
+.mw2-location-phtag {
+  position: absolute; right: 28px; bottom: 28px; z-index: 2;
+  display: inline-flex; align-items: center; gap: 9px;
+  background: rgba(18,17,16,0.62); color: #fff;
+  font-family: var(--font-display); font-weight: 500;
+  font-size: 11.5px; letter-spacing: 0.16em; text-transform: uppercase;
+  padding: 9px 16px; border-radius: 999px;
+  backdrop-filter: blur(4px);
+}
+.mw2-location-phtag::before {
+  content: ""; width: 7px; height: 7px; border-radius: 50%;
+  background: var(--clay); flex: none;
+}
+.mw2-location-scrim {
+  position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(90deg, rgba(18,17,16,0.86) 0%, rgba(18,17,16,0.58) 42%, rgba(18,17,16,0.12) 78%);
+}
+.mw2-location-inner { position: relative; z-index: 2; width: 100%; }
+.mw2-location-text { max-width: 30ch; }
+.mw2-location .mw2-fact { color: #fff; border-top-color: rgba(255,255,255,0.18); }
+.mw2-location .mw2-fact:last-child { border-bottom-color: rgba(255,255,255,0.18); }
+
+/* ---------- CTA band ---------- */
+.mw2-cta {
+  background: var(--ink); color: #fff; text-align: center;
+  min-height: 52vh;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 64px 40px;
+  position: relative; overflow: hidden;
+}
+.mw2-cta-orbit { display: flex; justify-content: center; margin-bottom: 40px; }
+.mw2-cta-h2 {
+  font-family: var(--font-display); font-weight: 300;
+  font-size: clamp(34px, 5vw, 60px); line-height: 1.04; letter-spacing: 0.01em;
+  margin: 0; color: #fff;
+}
+.mw2-cta-p { color: rgba(255,255,255,0.7); font-size: 19px; line-height: 1.55; margin: 22px auto 0; max-width: 52ch; }
+.mw2-cta-link {
+  display: inline-flex; align-items: center; gap: 9px; margin-top: 40px;
+  font-size: 15px; font-weight: 600; letter-spacing: 0.01em;
+  background: var(--paper); color: var(--ink); text-decoration: none;
+  padding: 15px 30px; border-radius: 6px; white-space: nowrap;
+  transition: transform var(--dur-fast) var(--ease), background var(--dur) var(--ease);
+}
+.mw2-cta-link:hover { background: var(--bone); }
+.mw2-cta-link:active { transform: scale(0.98); }
+.mw2-cta-link i { width: 17px; height: 17px; transition: transform var(--dur) var(--ease); }
+.mw2-cta-link:hover i { transform: translateX(3px); }
+
+/* ---------- footer ---------- */
+.mw2-footer { background: var(--n-900); color: rgba(255,255,255,0.7); padding: 56px 0 36px; }
+.mw2-footer-main {
+  display: flex; align-items: center; justify-content: space-between; gap: 40px; flex-wrap: wrap;
+  padding-bottom: 30px; border-bottom: 1px solid rgba(255,255,255,0.12);
+}
+.mw2-footer-word { height: 24px; display: block; margin-bottom: 16px; }
+.mw2-footer-addr { font-size: 13.5px; line-height: 1.7; color: rgba(255,255,255,0.5); }
+.mw2-footer-social { display: flex; gap: 26px; align-items: center; flex-wrap: wrap; }
+.mw2-footer-soc {
+  font-family: var(--font-display); font-weight: 500; font-size: 13px; letter-spacing: 0.06em;
+  color: rgba(255,255,255,0.7); text-decoration: none; transition: color var(--dur) var(--ease);
+}
+.mw2-footer-soc:hover { color: #fff; }
+.mw2-footer-bottom { padding-top: 22px; font-size: 13px; color: rgba(255,255,255,0.45); }
+
+/* reuse the orbit-mark spin from component */
+.mw2-orbit-mark { position: relative; display: inline-block; }
+.mw2-orbit-mark img { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+/* ---------- anchor offset ---------- */
+.mw2-section, .mw2-split, .mw2-location, [id="kontakt"] { scroll-margin-top: 80px; }
+
+/* ---------- responsive ---------- */
+@media (max-width: 900px) {
+  .mw2-split { grid-template-columns: 1fr; min-height: 0; }
+  .mw2-split-media { min-height: 340px; aspect-ratio: 4 / 3; }
+  .mw2-split-text { padding: 56px 40px; }
+  .mw2-split-reverse .mw2-split-media { order: -1; }
+  .mw2-principles { grid-template-columns: 1fr; }
+  .mw2-principle { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.16); padding: 32px 0; }
+  .mw2-principle:not(:first-child) { padding-left: 0; }
+  .mw2-principle:last-child { border-bottom: none; }
+  .mw2-amenities { grid-template-columns: 1fr; }
+  .mw2-amenity, .mw2-amenity:nth-child(3n), .mw2-amenity:not(:nth-child(3n)), .mw2-amenity:not(:nth-child(3n+1)) {
+    border-right: none; padding: 26px 0;
+  }
+  .mw2-location { min-height: 0; padding: 80px 0; }
+  .mw2-location-scrim { background: linear-gradient(180deg, rgba(18,17,16,0.55) 0%, rgba(18,17,16,0.8) 100%); }
+  .mw2-footer-main { flex-direction: column; align-items: flex-start; gap: 24px; }
+}
+@media (max-width: 560px) {
+  .mw2-hero { padding: 32px 20px; }
+  .mw2-hero-panel { padding: 32px 26px; }
+}
+
+/* ============================================================
+   4. Orbital mark — the one signature animation
+   (carried over from the v1 styles; the ring + dot rotate,
+   the M stays still; respects prefers-reduced-motion)
+   ============================================================ */
+.mw-orbit-mark { position: relative; display: inline-block; }
+.mw-orbit-mark img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.mw-orbit-ring { transform-origin: 50% 50%; animation: mw-spin 22s linear infinite; }
+@keyframes mw-spin { to { transform: rotate(360deg); } }
+
+/* ---- Static-site additions (no JavaScript needed) ---- */
+html { scroll-behavior: smooth; }
+img { display: block; }
+/* Never let a long word force horizontal overflow on small screens */
+body { overflow-wrap: break-word; }
+
+/* CTA contact button — reuses the design's .mw2-cta-link with an inline SVG arrow */
+.mw2-cta-link svg { width: 17px; height: 17px; transition: transform var(--dur) var(--ease); }
+.mw2-cta-link:hover svg { transform: translateX(3px); }
+
+/* Footer email rendered as a real mailto link, styled to match the address */
+.mw2-footer-addr a { color: inherit; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.22); transition: color var(--dur) var(--ease), border-color var(--dur) var(--ease); }
+.mw2-footer-addr a:hover { color: #fff; border-color: rgba(255,255,255,0.55); }
+
+/* A little more breathing room on small phones */
+@media (max-width: 560px) {
+  .mw2-wrap { padding-left: 24px; padding-right: 24px; }
+  .mw2-header-inner { padding-left: 24px; padding-right: 24px; }
+  /* Hero: the design's mobile rule double-pads the text, and a long word
+     ("Kontorfællesskab") can stretch the grid column and get clipped. Reset to
+     one clean gutter, cap the column width, and scale the headline to fit. */
+  .mw2-hero { padding: 0; }
+  .mw2-hero-grid { padding: 0 24px; grid-template-columns: minmax(0, 1fr); }
+  .mw2-hero-h1 { font-size: clamp(28px, 8vw, 44px); }
+}
+
+/* Honour reduced-motion: stop the spin and smooth scrolling */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .mw-orbit-ring { animation: none; }
+}
