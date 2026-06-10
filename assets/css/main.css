@@ -307,7 +307,7 @@ body {
   display: grid;
   grid-template-rows: 50% 50%;
 }
-.mw2-hero-top { align-self: end; padding-bottom: 6px; }
+.mw2-hero-top { align-self: end; padding-bottom: 0; margin-bottom: -8px; }
 .mw2-hero-bottom { align-self: start; padding-top: 0; }
 .mw2-hero-h1 {
   font-family: var(--font-display);
@@ -323,7 +323,7 @@ body {
   line-height: 1.5;
   color: #fff;
   max-width: none;
-  margin: 16px 0 0;
+  margin: 8px 0 0;
   text-align: left;
   text-shadow: 0 2px 4px rgba(18,17,16,0.95), 0 2px 11px rgba(18,17,16,0.85), 0 1px 24px rgba(18,17,16,0.8), 0 0 2px rgba(18,17,16,0.85);
 }
@@ -342,7 +342,7 @@ body {
 /* orbit mark (reuse OrbitMark component) */
 .mw2-orbit-wrap { width: 100%; height: 100%; }
 
-/* ---------- principper — dark ink band ---------- */
+/* ---------- principper — light band (bone), hairline-divided columns ---------- */
 .mw2-ink {
   background: var(--ink); color: #fff;
 }
@@ -358,7 +358,7 @@ body {
 }
 .mw2-principle {
   padding: 40px 36px 8px 0;
-  border-right: 1px solid rgba(255,255,255,0.16);
+  border-right: 1px solid var(--line);
 }
 .mw2-principle:last-child { border-right: none; padding-right: 0; }
 .mw2-principle:not(:first-child) { padding-left: 36px; }
@@ -368,9 +368,9 @@ body {
 }
 .mw2-principle-t {
   font-family: var(--font-display); font-weight: 400;
-  font-size: 24px; letter-spacing: 0.01em; color: #fff; margin: 0 0 14px;
+  font-size: 24px; letter-spacing: 0.01em; color: var(--ink); margin: 0 0 14px;
 }
-.mw2-principle-d { font-size: 15.5px; line-height: 1.6; color: rgba(255,255,255,0.68); margin: 0; }
+.mw2-principle-d { font-size: 15.5px; line-height: 1.6; color: var(--fg2); margin: 0; }
 
 /* ---------- split (image + text, edge to edge) ---------- */
 .mw2-split {
@@ -381,10 +381,13 @@ body {
 .mw2-split-text {
   display: flex; flex-direction: column; justify-content: center;
   padding: 96px clamp(40px, 7vw, 104px);
+  /* text on the right half: align its outer (right) edge to the page grid */
+  padding-right: max(clamp(40px, 7vw, 104px), calc((100vw - 1240px) / 2 + 40px));
 }
-/* keep the reverse-split text aligned to the page grid on wide screens */
+/* text on the left half (reverse split): align its outer (left) edge to the page grid */
 .mw2-split-reverse .mw2-split-text {
-  padding-left: max(clamp(40px, 7vw, 104px), calc((100vw - 1240px) / 2));
+  padding-left: max(clamp(40px, 7vw, 104px), calc((100vw - 1240px) / 2 + 40px));
+  padding-right: clamp(40px, 7vw, 104px);
 }
 .mw2-split-bone { background: var(--bone); }
 .mw2-split-paper { background: var(--paper); }
@@ -514,13 +517,21 @@ body {
   .mw2-split-text { padding: 56px 40px; }
   .mw2-split-reverse .mw2-split-media { order: -1; }
   .mw2-principles { grid-template-columns: 1fr; }
-  .mw2-principle { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.16); padding: 32px 0; }
+  .mw2-principle { border-right: none; border-bottom: 1px solid var(--line); padding: 32px 0; }
   .mw2-principle:not(:first-child) { padding-left: 0; }
   .mw2-principle:last-child { border-bottom: none; }
   .mw2-amenities { grid-template-columns: 1fr; }
   .mw2-amenity, .mw2-amenity:nth-child(3n), .mw2-amenity:not(:nth-child(3n)), .mw2-amenity:not(:nth-child(3n+1)) {
     border-right: none; padding: 26px 0;
   }
+  /* stacked list: a divider between every item, none after the last */
+  .mw2-amenity:nth-child(n+4) { border-bottom: 1px solid var(--line); }
+  .mw2-amenity:last-child { border-bottom: none; }
+  /* tighter sections on small screens */
+  .mw2-section { padding: 64px 0; }
+  .mw2-head { margin-bottom: 28px; }
+  /* "Alt det praktiske": left-aligned instead of centered */
+  .mw2-head-center { margin-left: 0; margin-right: 0; text-align: left; max-width: none; }
   .mw2-location { min-height: 0; padding: 80px 0; }
   .mw2-location-scrim { background: linear-gradient(180deg, rgba(18,17,16,0.55) 0%, rgba(18,17,16,0.8) 100%); }
   .mw2-footer-main { flex-direction: column; align-items: flex-start; gap: 24px; }
@@ -558,12 +569,16 @@ body { overflow-wrap: break-word; }
 @media (max-width: 560px) {
   .mw2-wrap { padding-left: 24px; padding-right: 24px; }
   .mw2-header-inner { padding-left: 24px; padding-right: 24px; }
+  /* split-section text ("Et åbent kontor", "Hvem er vi?") lines up with the 24px gutter */
+  .mw2-split-text, .mw2-split-reverse .mw2-split-text { padding-left: 24px; padding-right: 24px; }
   /* Hero: the design's mobile rule double-pads the text, and a long word
      ("Kontorfællesskab") can stretch the grid column and get clipped. Reset to
      one clean gutter, cap the column width, and scale the headline to fit. */
   .mw2-hero { padding: 0; }
   .mw2-hero-grid { padding: 0 24px; grid-template-columns: minmax(0, 1fr); }
   .mw2-hero-h1 { font-size: clamp(28px, 8vw, 44px); }
+  /* on small screens the type is smaller, so skip the extra downward nudge */
+  .mw2-hero-top { margin-bottom: 0; }
 }
 
 /* Honour reduced-motion: stop the spin and smooth scrolling */
