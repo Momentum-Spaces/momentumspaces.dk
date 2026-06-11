@@ -19,7 +19,7 @@ The site is hosted for free on **GitHub Pages**. Every time a change is pushed t
 
 ## Folder layout
 - `index.html` — the whole page
-- `assets/css/main.css` — fonts + design tokens + layout + the spinning orbit mark
+- `assets/css/main.css` — fonts + design tokens + layout
 - `assets/fonts/` — Aktifo A (headlines) + Hanken Grotesk (body text), self-hosted
 - `assets/img/` — logos, favicon, social-share image
 - `assets/photos/` — the photography

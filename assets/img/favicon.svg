@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 7476 7476" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>1:1 SMALL</title>
+    <defs>
+        <path d="M0,0 L7476,0 L7476,7476 L0,7476 Z" id="path-1"></path>
+    </defs>
+    <g id="1:1-SMALL" stroke="none" fill="none" xlink:href="#path-1" fill-rule="evenodd">
+        <rect id="Rectangle-7" fill="#EFF2E7" x="0" y="0" width="7476" height="7476"></rect>
+        <g id="Group" stroke-width="1" transform="translate(1446, 2154)" fill="#4B4B41">
+            <rect id="Rectangle" x="0" y="0" width="1" height="3168"></rect>
+            <rect id="Rectangle-2" x="262" y="0" width="262" height="3168"></rect>
+            <rect id="Rectangle-6" x="0" y="0" width="131" height="3168"></rect>
+            <rect id="Rectangle-3" x="655" y="0" width="524" height="3168"></rect>
+            <rect id="Rectangle-4" x="1310" y="0" width="1048" height="3168"></rect>
+            <rect id="Rectangle-5" x="2489" y="0" width="2096" height="3168"></rect>
+        </g>
+    </g>
+</svg>

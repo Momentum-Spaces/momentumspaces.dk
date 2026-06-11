@@ -5,7 +5,7 @@
      1) Self-hosted webfonts (Aktifo A display + Hanken Grotesk body)
      2) Design tokens + base type  (from colors_and_type.css)
      3) V2 layout                  (from styles-v2.css)
-     4) Orbital mark + static-site additions
+     4) Brand tile + static-site additions
    No JavaScript, no external CDNs.
    ============================================================ */
 
@@ -55,6 +55,13 @@
   --clay-deep:   #8F6843;
   --clay-soft:   #E8DAC9;
 
+  /* ---------- BRAND GREENS — from the 2026 logo ---------- */
+  --moss:       #4B4B41;   /* deep olive — the logo mark & dark bands   */
+  --moss-deep:  #33332C;   /* darker olive — footer                     */
+  --sage:       #EFF2E7;   /* pale sage — logo background, light bands  */
+  --sage-deep:  #E3E7D6;   /* deeper sage panel                         */
+  --line-green: #DCE1CC;   /* hairlines on sage surfaces                */
+
   /* ---------- SEMANTIC SURFACES & TEXT ---------- */
   --bg:           var(--bone);
   --surface:      var(--paper);
@@ -65,7 +72,7 @@
   --fg-invert:    var(--paper);   /* text on ink             */
   --line:         var(--n-200);   /* hairline borders        */
   --line-strong:  var(--n-300);
-  --focus:        var(--clay);
+  --focus:        var(--moss);
 
   /* ---------- SEMANTIC STATUS (muted, restrained) ---------- */
   --ok:    #5B6E50;
@@ -267,9 +274,9 @@ body {
 /* ---------- header (over hero, transparent → solid) ---------- */
 .mw2-header {
   position: sticky; top: 0; z-index: 60;
-  background: rgba(247,245,240,0.92);
+  background: rgba(239,242,231,0.92);
   backdrop-filter: blur(14px) saturate(1.1);
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid var(--line-green);
 }
 .mw2-header-inner {
   max-width: 1240px; margin: 0 auto;
@@ -277,7 +284,7 @@ body {
   display: flex; align-items: center; gap: 28px;
 }
 .mw2-brand { display: flex; align-items: center; text-decoration: none; }
-.mw2-brand-logo { height: 30px; display: block; }
+.mw2-brand-logo { height: 36px; display: block; }
 .mw2-header-cta {
   margin-left: auto;
   font-family: var(--font-body);
@@ -287,11 +294,11 @@ body {
 }
 .mw2-header-cta::after {
   content: ""; position: absolute; left: 0; bottom: 0;
-  width: 100%; height: 1px; background: var(--line-strong);
+  width: 100%; height: 1px; background: rgba(75,75,65,0.35);
   transition: background var(--dur) var(--ease);
 }
 .mw2-header-cta:hover { color: var(--ink); }
-.mw2-header-cta:hover::after { background: var(--clay); }
+.mw2-header-cta:hover::after { background: var(--moss); }
 
 /* ---------- hero (full-bleed harbour photo, light, with text panel) ---------- */
 .mw2-hero {
@@ -339,9 +346,6 @@ body {
   padding: 0.24em 0.4em 0 0.4em;
 }
 
-/* orbit mark (reuse OrbitMark component) */
-.mw2-orbit-wrap { width: 100%; height: 100%; }
-
 /* ---------- principper — light band (bone), hairline-divided columns ---------- */
 .mw2-ink {
   background: var(--ink); color: #fff;
@@ -358,7 +362,7 @@ body {
 }
 .mw2-principle {
   padding: 40px 36px 8px 0;
-  border-right: 1px solid var(--line);
+  border-right: 1px solid var(--line-green);
 }
 .mw2-principle:last-child { border-right: none; padding-right: 0; }
 .mw2-principle:not(:first-child) { padding-left: 36px; }
@@ -396,10 +400,10 @@ body {
 .mw2-facts { list-style: none; padding: 0; margin: 40px 0 0; display: flex; flex-direction: column; }
 .mw2-fact {
   display: flex; align-items: center; gap: 16px;
-  padding: 16px 0; border-top: 1px solid var(--line);
+  padding: 16px 0; border-top: 1px solid var(--line-green);
   font-size: 16px; font-weight: 500; color: var(--ink);
 }
-.mw2-fact:last-child { border-bottom: 1px solid var(--line); }
+.mw2-fact:last-child { border-bottom: 1px solid var(--line-green); }
 
 /* ---------- amenities — editorial table ---------- */
 .mw2-amenities {
@@ -407,8 +411,8 @@ body {
 }
 .mw2-amenity {
   padding: 34px 30px 34px 0;
-  border-bottom: 1px solid var(--line);
-  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line-green);
+  border-right: 1px solid var(--line-green);
 }
 .mw2-amenity:nth-child(3n) { border-right: none; padding-right: 0; }
 .mw2-amenity:nth-child(n+4) { border-bottom: none; }
@@ -436,7 +440,7 @@ body {
 /* placeholder until the real photo is supplied */
 .mw2-location-ph {
   background:
-    linear-gradient(125deg, var(--n-300) 0%, var(--bone-deep) 52%, var(--n-200) 100%);
+    linear-gradient(125deg, var(--line-green) 0%, var(--sage-deep) 52%, var(--sage) 100%);
 }
 .mw2-location-phtag {
   position: absolute; right: 28px; bottom: 28px; z-index: 2;
@@ -449,7 +453,7 @@ body {
 }
 .mw2-location-phtag::before {
   content: ""; width: 7px; height: 7px; border-radius: 50%;
-  background: var(--clay); flex: none;
+  background: var(--sage); flex: none;
 }
 .mw2-location-scrim {
   position: absolute; inset: 0; z-index: 1;
@@ -462,13 +466,12 @@ body {
 
 /* ---------- CTA band ---------- */
 .mw2-cta {
-  background: var(--ink); color: #fff; text-align: center;
+  background: var(--moss); color: #fff; text-align: center;
   min-height: 52vh;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   padding: 64px 40px;
   position: relative; overflow: hidden;
 }
-.mw2-cta-orbit { display: flex; justify-content: center; margin-bottom: 40px; }
 .mw2-cta-h2 {
   font-family: var(--font-display); font-weight: 300;
   font-size: clamp(34px, 5vw, 60px); line-height: 1.04; letter-spacing: 0.01em;
@@ -488,24 +491,19 @@ body {
 .mw2-cta-link:hover i { transform: translateX(3px); }
 
 /* ---------- footer ---------- */
-.mw2-footer { background: var(--n-900); color: rgba(255,255,255,0.7); padding: 56px 0 36px; }
+.mw2-footer { background: var(--moss-deep); color: rgba(255,255,255,0.7); padding: 56px 0 36px; }
 .mw2-footer-main {
   display: flex; align-items: center; justify-content: space-between; gap: 40px; flex-wrap: wrap;
   padding-bottom: 30px; border-bottom: 1px solid rgba(255,255,255,0.12);
 }
-.mw2-footer-word { height: 24px; display: block; margin-bottom: 16px; }
-.mw2-footer-addr { font-size: 13.5px; line-height: 1.7; color: rgba(255,255,255,0.5); }
+.mw2-footer-addr { font-size: 13.5px; line-height: 1.7; color: rgba(255,255,255,0.58); }
 .mw2-footer-social { display: flex; gap: 26px; align-items: center; flex-wrap: wrap; }
 .mw2-footer-soc {
   font-family: var(--font-display); font-weight: 500; font-size: 13px; letter-spacing: 0.06em;
   color: rgba(255,255,255,0.7); text-decoration: none; transition: color var(--dur) var(--ease);
 }
 .mw2-footer-soc:hover { color: #fff; }
-.mw2-footer-bottom { padding-top: 22px; font-size: 13px; color: rgba(255,255,255,0.45); }
-
-/* reuse the orbit-mark spin from component */
-.mw2-orbit-mark { position: relative; display: inline-block; }
-.mw2-orbit-mark img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.mw2-footer-bottom { padding-top: 22px; font-size: 13px; color: rgba(255,255,255,0.55); }
 
 /* ---------- anchor offset ---------- */
 .mw2-section, .mw2-split, .mw2-location, [id="kontakt"] { scroll-margin-top: 80px; }
@@ -517,7 +515,7 @@ body {
   .mw2-split-text { padding: 56px 40px; }
   .mw2-split-reverse .mw2-split-media { order: -1; }
   .mw2-principles { grid-template-columns: 1fr; }
-  .mw2-principle { border-right: none; border-bottom: 1px solid var(--line); padding: 32px 0; }
+  .mw2-principle { border-right: none; border-bottom: 1px solid var(--line-green); padding: 32px 0; }
   .mw2-principle:not(:first-child) { padding-left: 0; }
   .mw2-principle:last-child { border-bottom: none; }
   .mw2-amenities { grid-template-columns: 1fr; }
@@ -525,7 +523,7 @@ body {
     border-right: none; padding: 26px 0;
   }
   /* stacked list: a divider between every item, none after the last */
-  .mw2-amenity:nth-child(n+4) { border-bottom: 1px solid var(--line); }
+  .mw2-amenity:nth-child(n+4) { border-bottom: 1px solid var(--line-green); }
   .mw2-amenity:last-child { border-bottom: none; }
   /* tighter sections on small screens */
   .mw2-section { padding: 64px 0; }
@@ -536,20 +534,11 @@ body {
   .mw2-location-scrim { background: linear-gradient(180deg, rgba(18,17,16,0.55) 0%, rgba(18,17,16,0.8) 100%); }
   .mw2-footer-main { flex-direction: column; align-items: flex-start; gap: 24px; }
 }
-@media (max-width: 560px) {
-  .mw2-hero { padding: 32px 20px; }
-  .mw2-hero-panel { padding: 32px 26px; }
-}
-
 /* ============================================================
-   4. Orbital mark — the one signature animation
-   (carried over from the v1 styles; the ring + dot rotate,
-   the M stays still; respects prefers-reduced-motion)
+   4. Brand tile — the square logo on the CTA band
    ============================================================ */
-.mw-orbit-mark { position: relative; display: inline-block; }
-.mw-orbit-mark img { position: absolute; inset: 0; width: 100%; height: 100%; }
-.mw-orbit-ring { transform-origin: 50% 50%; animation: mw-spin 22s linear infinite; }
-@keyframes mw-spin { to { transform: rotate(360deg); } }
+.mw2-cta-logo { width: 200px; height: 200px; display: block; margin: 0 auto 44px; }
+@media (max-width: 560px) { .mw2-cta-logo { width: 140px; height: 140px; margin-bottom: 32px; } }
 
 /* ---- Static-site additions (no JavaScript needed) ---- */
 html { scroll-behavior: smooth; }
@@ -581,8 +570,7 @@ body { overflow-wrap: break-word; }
   .mw2-hero-top { margin-bottom: 0; }
 }
 
-/* Honour reduced-motion: stop the spin and smooth scrolling */
+/* Honour reduced-motion: no smooth scrolling */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .mw-orbit-ring { animation: none; }
 }
