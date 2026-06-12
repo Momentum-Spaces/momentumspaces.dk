@@ -443,8 +443,6 @@ body {
 }
 .mw2-location-inner { position: relative; z-index: 2; width: 100%; }
 .mw2-location-text { max-width: 30ch; }
-.mw2-location .mw2-fact { color: #fff; border-top-color: rgba(255,255,255,0.18); }
-.mw2-location .mw2-fact:last-child { border-bottom-color: rgba(255,255,255,0.18); }
 
 /* ---------- CTA band ---------- */
 .mw2-cta {
@@ -494,7 +492,9 @@ body {
 @media (max-width: 900px) {
   .mw2-split { grid-template-columns: 1fr; min-height: 0; }
   .mw2-split-media { min-height: 340px; aspect-ratio: 4 / 3; }
-  .mw2-split-text { padding: 56px 40px; }
+  /* stacked: keep the text closer to its own photo above than to the next section */
+  .mw2-split-text { padding: 36px 40px 56px; }
+  .mw2-split-text .mw2-h2 { margin-top: 0; }
   .mw2-split-reverse .mw2-split-media { order: -1; }
   .mw2-principles { grid-template-columns: 1fr; }
   .mw2-principle { border-right: none; border-bottom: 1px solid var(--line-green); padding: 32px 0; }
@@ -513,6 +513,9 @@ body {
   /* "Alt det praktiske": left-aligned instead of centered */
   .mw2-head-center { margin-left: 0; margin-right: 0; text-align: left; max-width: none; }
   .mw2-location { min-height: 0; padding: 80px 0; }
+  /* full-width scrim on small screens: give the text the whole line, so
+     "Lystbådehavnen" fits without needing to hyphenate at all */
+  .mw2-location-text { max-width: none; }
   .mw2-location-scrim { background: linear-gradient(180deg, rgba(18,17,16,0.55) 0%, rgba(18,17,16,0.8) 100%); }
   .mw2-footer-main { flex-direction: column; align-items: flex-start; gap: 24px; }
 }
@@ -527,6 +530,10 @@ html { scroll-behavior: smooth; }
 img { display: block; }
 /* Never let a long word force horizontal overflow on small screens */
 body { overflow-wrap: break-word; }
+/* …but never break headings mid-word: Chrome's break-word otherwise wins over the
+   soft hyphen in "Lystbåde­havnen" and splits without a hyphen. Headings may only
+   break at spaces and soft hyphens. */
+h1, h2, h3 { overflow-wrap: normal; }
 
 /* CTA contact button — reuses the design's .mw2-cta-link with an inline SVG arrow */
 .mw2-cta-link svg { width: 17px; height: 17px; transition: transform var(--dur) var(--ease); }
@@ -550,6 +557,8 @@ body { overflow-wrap: break-word; }
   .mw2-hero-h1 { font-size: clamp(28px, 8vw, 44px); }
   /* on small screens the type is smaller, so skip the extra downward nudge */
   .mw2-hero-top { margin-bottom: 0; }
+  /* the lead's desktop line break: let narrow screens wrap naturally instead */
+  .mw2-hero-lead br { display: none; }
 }
 
 /* Honour reduced-motion: no smooth scrolling */
