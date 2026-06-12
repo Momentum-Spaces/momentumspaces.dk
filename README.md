@@ -24,6 +24,10 @@ The site is hosted for free on **GitHub Pages**. Every time a change is pushed t
 - `assets/img/` — logos, favicon, social-share image
 - `assets/photos/` — the photography
 - `CNAME` — tells GitHub Pages to serve the site on momentumspaces.dk
+- `robots.txt`, `sitemap.xml`, `llms.txt` — small helper files for search engines and AI crawlers
+
+Note: the contact email is assembled by a tiny script in `index.html` so spam bots
+that scrape the raw HTML can't harvest it — don't paste the address directly into the HTML.
 
 ## Preview it on your own computer (optional)
 Open this folder in a terminal and run `python3 -m http.server 8000`, then visit

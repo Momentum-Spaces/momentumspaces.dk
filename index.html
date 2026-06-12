@@ -4,17 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>Momentum · Kontorfællesskab for iværksættere i Aarhus</title>
-<meta name="description" content="Momentum er et lille, eksklusivt kontorfællesskab for unge iværksættere på Marselisborg Lystbådehavn i Aarhus med seks faste pladser, fantastisk udsigt og et stærkt fællesskab. Kontakt os for en rundvisning.">
+<title>Momentum Spaces · Kontorfællesskab for iværksættere i Aarhus C</title>
+<meta name="description" content="Momentum er et lille, eksklusivt kontorfællesskab for iværksættere på Marselisborg Lystbådehavn i Aarhus C med seks faste pladser, fantastisk udsigt og et stærkt fællesskab. Kontakt os for en rundvisning.">
 <link rel="canonical" href="https://momentumspaces.dk/">
 <meta name="theme-color" content="#EFF2E7">
 
 <!-- Open Graph / social sharing -->
 <meta property="og:type" content="website">
 <meta property="og:locale" content="da_DK">
-<meta property="og:site_name" content="Momentum">
-<meta property="og:title" content="Momentum · Kontorfællesskab for iværksættere i Aarhus">
-<meta property="og:description" content="Et lille, eksklusivt kontorfællesskab for unge iværksættere på Marselisborg Lystbådehavn i Aarhus.">
+<meta property="og:site_name" content="Momentum Spaces">
+<meta property="og:title" content="Kontorfællesskab for iværksættere i Aarhus C">
+<meta property="og:description" content="Et lille, eksklusivt kontorfællesskab for iværksættere på Marselisborg Lystbådehavn i Aarhus C.">
 <meta property="og:url" content="https://momentumspaces.dk/">
 <meta property="og:image" content="https://momentumspaces.dk/assets/img/og-image.jpg">
 <meta property="og:image:width" content="1200">
@@ -25,17 +25,16 @@
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 
 <link rel="preload" as="image" href="assets/photos/havnen.jpg" fetchpriority="high">
-<link rel="stylesheet" href="assets/css/main.css?v=7">
+<link rel="stylesheet" href="assets/css/main.css?v=8">
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
-  "name": "Momentum",
-  "alternateName": "Momentum Spaces",
-  "description": "Et lille, eksklusivt kontorfællesskab for unge iværksættere på Marselisborg Lystbådehavn i Aarhus.",
+  "name": "Momentum Spaces",
+  "alternateName": "Momentum",
+  "description": "Et lille, eksklusivt kontorfællesskab for iværksættere på Marselisborg Lystbådehavn i Aarhus C.",
   "url": "https://momentumspaces.dk/",
-  "email": "kontakt@momentumspaces.dk",
   "image": "https://momentumspaces.dk/assets/img/og-image.jpg",
   "sameAs": [
     "https://www.instagram.com/momentum.spaces",
@@ -47,6 +46,11 @@
     "postalCode": "8000",
     "addressLocality": "Aarhus C",
     "addressCountry": "DK"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 56.1386191,
+    "longitude": 10.2158871
   }
 }
 </script>
@@ -59,7 +63,7 @@
     <a class="mw2-brand" href="#top" aria-label="Momentum — til toppen">
       <img class="mw2-brand-logo" src="assets/img/logo-full-ink.svg" alt="Momentum Spaces">
     </a>
-    <a class="mw2-header-cta" href="mailto:kontakt@momentumspaces.dk">Kontakt os</a>
+    <a class="mw2-header-cta" data-email href="#kontakt">Kontakt os</a>
   </div>
 </header>
 
@@ -120,7 +124,7 @@
   <section class="mw2-split mw2-split-reverse" id="hvem">
     <div class="mw2-split-text mw2-split-paper">
       <h2 class="mw2-h2">Hvem er vi?</h2>
-      <p class="mw2-lead">Vi er unge iværksættere under 35 år, som alle driver vores egne forretninger. Vi har en hverdag fyldt med frihed til selv at bestemme, men prioriterer samtidig at have en fast kontorplads og et socialt arbejdsmiljø.</p>
+      <p class="mw2-lead">Vi er iværksættere under 35 år, som alle driver vores egne forretninger. Vi har en hverdag fyldt med frihed til selv at bestemme, men prioriterer samtidig at have en fast kontorplads og et socialt arbejdsmiljø.</p>
     </div>
     <div class="mw2-split-media">
       <img src="assets/photos/hero-udsigt.jpg" alt="Udsigt over havnen fra kontoret" style="object-position: center 50%;" loading="lazy">
@@ -162,10 +166,9 @@
     </div>
   </section>
 
-  <!-- LOCATION — full-bleed, photo placeholder until a harbour shot arrives -->
+  <!-- LOCATION — full-bleed harbour photo -->
   <section class="mw2-location" id="location">
-    <div class="mw2-location-img mw2-location-ph"></div>
-    <div class="mw2-location-phtag">Nyt billede på vej</div>
+    <img class="mw2-location-img" src="assets/photos/lystbaadehavnen.jpg" alt="Havnemiljøet på Marselisborg Lystbådehavn med restauranter, mennesker og både" loading="lazy">
     <div class="mw2-location-scrim"></div>
     <div class="mw2-location-inner">
       <div class="mw2-wrap">
@@ -196,7 +199,7 @@
       <div class="mw2-footer-brand">
         <div class="mw2-footer-addr">
           Marselisborg Havnevej 36, 2. th · 8000 Aarhus C<br>
-          <a href="mailto:kontakt@momentumspaces.dk">kontakt@momentumspaces.dk</a>
+          <a data-email="show" href="#kontakt">kontakt (at) momentumspaces.dk</a>
         </div>
       </div>
       <div class="mw2-footer-social">
@@ -209,6 +212,18 @@
     </div>
   </div>
 </footer>
+
+<script>
+/* Mailadressen samles først her i browseren, så simple spam-robotter,
+   der blot læser sidens kildekode, ikke kan høste den. */
+(function () {
+  var a = ["kontakt", "momentumspaces.dk"].join("@");
+  document.querySelectorAll("[data-email]").forEach(function (el) {
+    el.setAttribute("href", "mailto:" + a);
+    if (el.getAttribute("data-email") === "show") el.textContent = a;
+  });
+})();
+</script>
 
 </body>
 </html>
