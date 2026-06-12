@@ -493,7 +493,10 @@ body {
   .mw2-split { grid-template-columns: 1fr; min-height: 0; }
   .mw2-split-media { min-height: 340px; aspect-ratio: 4 / 3; }
   /* stacked: keep the text closer to its own photo above than to the next section */
-  .mw2-split-text { padding: 36px 40px 56px; }
+  .mw2-split-text { padding: 36px 40px 72px; }
+  /* cancel the desktop grid-alignment longhands (higher specificity than the
+     shorthand above), so the gutter matches mw2-wrap's 40px when stacked */
+  .mw2-split-text, .mw2-split-reverse .mw2-split-text { padding-left: 40px; padding-right: 40px; }
   .mw2-split-text .mw2-h2 { margin-top: 0; }
   .mw2-split-reverse .mw2-split-media { order: -1; }
   .mw2-principles { grid-template-columns: 1fr; }
@@ -513,9 +516,6 @@ body {
   /* "Alt det praktiske": left-aligned instead of centered */
   .mw2-head-center { margin-left: 0; margin-right: 0; text-align: left; max-width: none; }
   .mw2-location { min-height: 0; padding: 80px 0; }
-  /* full-width scrim on small screens: give the text the whole line, so
-     "Lystbådehavnen" fits without needing to hyphenate at all */
-  .mw2-location-text { max-width: none; }
   .mw2-location-scrim { background: linear-gradient(180deg, rgba(18,17,16,0.55) 0%, rgba(18,17,16,0.8) 100%); }
   .mw2-footer-main { flex-direction: column; align-items: flex-start; gap: 24px; }
 }
