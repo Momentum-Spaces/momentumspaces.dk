@@ -29,6 +29,9 @@ The site is hosted for free on **GitHub Pages**. Every time a change is pushed t
 Note: the contact email is assembled by a tiny script in `index.html` so spam bots
 that scrape the raw HTML can't harvest it — don't paste the address directly into the HTML.
 
+Analytics: `index.html` loads Umami (cloud.umami.is) — privacy-friendly and cookieless,
+so no cookie banner is needed. View the stats by logging in at cloud.umami.is.
+
 ## Preview it on your own computer (optional)
 Open this folder in a terminal and run `python3 -m http.server 8000`, then visit
 http://localhost:8000 in your browser.
