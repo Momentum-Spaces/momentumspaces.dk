@@ -60,8 +60,117 @@
 }
 </script>
 
-<!-- Umami — privacy-venligt, cookieløst analytics (intet cookie-banner nødvendigt) -->
+<!-- Umami — privacy-venligt, cookieløst analytics (kræver ikke samtykke) -->
 <script defer src="https://cloud.umami.is/script.js" data-website-id="ba3bad6b-c163-4bc9-8c1c-be259ec3c317"></script>
+
+<!-- ============================================================
+     Google Ads — Consent Mode v2 (basic) + konverteringsmåling.
+     Google-tagget indlæses FØRST, når brugeren aktivt har sagt ja.
+     Siger brugeren nej, hentes intet fra Google, og der sættes
+     ingen cookies. Umami ovenfor er cookieløst og kører altid.
+     ============================================================ -->
+<script>
+(function () {
+  /* --- 1) Consent-defaults skal sættes, før Google-tagget indlæses --- */
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = function () { window.dataLayer.push(arguments); };
+  gtag('consent', 'default', {
+    ad_storage: 'denied',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied',
+    analytics_storage: 'denied',
+    wait_for_update: 500
+  });
+
+  /* --- 2) UDSKIFT DISSE TO LINJER, når kontoen er oprettet ---------
+     ADS_ID     : dit konto-id, fx 'AW-123456789'
+     CONV_LABEL : konverterings-id/label, fx 'AW-123456789/AbC-D_efGh'
+     Så længe der står X'er i værdierne, indlæses Google slet ikke,
+     og banneret vises ikke. Siden kan altså ligge live imens.       */
+  var ADS_ID     = 'AW-XXXXXXXXXX';
+  var CONV_LABEL = 'AW-XXXXXXXXXX/XXXXXXXXXXXXXXXXXXX';
+
+  var CONFIGURED = ADS_ID.indexOf('X') === -1;
+  var STORE_KEY  = 'momentum-samtykke';
+  var loaded     = false;
+
+  function loadGoogleTag() {
+    if (loaded || !CONFIGURED) return;
+    loaded = true;
+    var s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=' + ADS_ID;
+    document.head.appendChild(s);
+    gtag('js', new Date());
+    gtag('config', ADS_ID);
+  }
+
+  function grant() {
+    gtag('consent', 'update', {
+      ad_storage: 'granted',
+      ad_user_data: 'granted',
+      ad_personalization: 'granted',
+      analytics_storage: 'granted'
+    });
+    loadGoogleTag();
+  }
+
+  /* Genskab tidligere valg ved næste besøg */
+  var saved = null;
+  try { saved = window.localStorage.getItem(STORE_KEY); } catch (e) {}
+  if (saved === 'ja') grant();
+
+  /* --- 3) Offentligt API, som resten af siden bruger -------------- */
+  window.momentumConsent = {
+    configured: CONFIGURED,
+    saved: saved,
+    accept: function () {
+      try { window.localStorage.setItem(STORE_KEY, 'ja'); } catch (e) {}
+      grant();
+    },
+    decline: function () {
+      try { window.localStorage.setItem(STORE_KEY, 'nej'); } catch (e) {}
+    },
+    reset: function () {
+      try { window.localStorage.removeItem(STORE_KEY); } catch (e) {}
+    },
+    /* Kaldes når nogen klikker på en mailadresse = vores konvertering */
+    trackContact: function () {
+      if (window.umami) { try { window.umami.track('kontakt-klik'); } catch (e) {} }
+      if (loaded && CONV_LABEL.indexOf('X') === -1) {
+        gtag('event', 'conversion', { send_to: CONV_LABEL });
+      }
+    }
+  };
+})();
+</script>
+
+<style>
+/* Cookiebanner — matcher sidens palet, ingen eksterne afhængigheder */
+.mw2-consent{position:fixed;left:20px;bottom:20px;z-index:9999;max-width:380px;
+  background:var(--paper,#fff);color:var(--ink,#121110);border:1px solid var(--n-200,#E2DDD2);
+  border-radius:10px;padding:22px 22px 18px;box-shadow:0 12px 40px rgba(18,17,16,.16);
+  font-family:"Hanken Grotesk",system-ui,sans-serif;font-size:14.5px;line-height:1.55;
+  opacity:0;transform:translateY(10px);transition:opacity .28s ease,transform .28s ease}
+.mw2-consent[data-vis="1"]{opacity:1;transform:translateY(0)}
+.mw2-consent h2{font-family:"Aktifo A","Hanken Grotesk",system-ui,sans-serif;
+  font-size:17px;font-weight:500;margin:0 0 8px;letter-spacing:.01em}
+.mw2-consent p{margin:0 0 16px;color:var(--n-600,#605A51)}
+.mw2-consent-row{display:flex;gap:10px}
+.mw2-consent button{flex:1 1 0;font:inherit;font-weight:500;font-size:14px;cursor:pointer;
+  padding:11px 14px;border-radius:6px;transition:background .18s ease,border-color .18s ease}
+.mw2-consent .mw2-consent-no{background:transparent;color:var(--ink,#121110);
+  border:1px solid var(--n-300,#CFC8BA)}
+.mw2-consent .mw2-consent-no:hover{background:var(--bone,#F7F5F0)}
+.mw2-consent .mw2-consent-yes{background:var(--moss,#4B4B41);color:#fff;border:1px solid var(--moss,#4B4B41)}
+.mw2-consent .mw2-consent-yes:hover{background:var(--moss-deep,#33332C);border-color:var(--moss-deep,#33332C)}
+.mw2-consent button:active{transform:scale(.985)}
+.mw2-consent-reopen{background:none;border:0;padding:0;font:inherit;font-size:inherit;
+  color:inherit;opacity:.75;cursor:pointer;text-decoration:underline}
+.mw2-consent-reopen:hover{opacity:1}
+@media (max-width:560px){.mw2-consent{left:12px;right:12px;bottom:12px;max-width:none}}
+@media (prefers-reduced-motion:reduce){.mw2-consent{transition:none}}
+</style>
 </head>
 
 <body>
@@ -193,6 +302,14 @@
     <img class="mw2-cta-logo" src="assets/img/logo-square.svg" alt="Momentum Spaces">
     <h2 class="mw2-cta-h2">Kom og mærk stemningen</h2>
     <p class="mw2-cta-p">Skriv til os, så finder vi et tidspunkt, hvor du kan kigge forbi.</p>
+    <a class="mw2-cta-link" data-email href="#kontakt">
+      Skriv til os
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <line x1="5" y1="12" x2="19" y2="12"></line>
+        <polyline points="12 5 19 12 12 19"></polyline>
+      </svg>
+    </a>
   </section>
 
 </main>
@@ -213,6 +330,7 @@
     </div>
     <div class="mw2-footer-bottom">
       <span>© 2026 Momentum Spaces · 8000 Aarhus C, Danmark</span>
+      <span class="mw2-consent-slot" hidden> · <button type="button" class="mw2-consent-reopen">Cookieindstillinger</button></span>
     </div>
   </div>
 </footer>
@@ -225,7 +343,67 @@
   document.querySelectorAll("[data-email]").forEach(function (el) {
     el.setAttribute("href", "mailto:" + a);
     if (el.getAttribute("data-email") === "show") el.textContent = a;
+    /* Klik på en mailadresse = en henvendelse. Registreres som konvertering. */
+    el.addEventListener("click", function () {
+      if (window.momentumConsent) window.momentumConsent.trackContact();
+    });
   });
+})();
+</script>
+
+<script>
+/* Cookiebanner. Vises kun, hvis Google Ads faktisk er konfigureret,
+   og kun indtil brugeren har taget stilling. Afvis og Accepter er
+   lige fremtrædende, som Datatilsynet kræver. */
+(function () {
+  var c = window.momentumConsent;
+  if (!c || !c.configured) return;
+
+  var slot = document.querySelector(".mw2-consent-slot");
+  if (slot) {
+    slot.hidden = false;
+    slot.querySelector(".mw2-consent-reopen").addEventListener("click", function () {
+      c.reset();
+      show();
+    });
+  }
+
+  var box = null;
+
+  function close() {
+    if (!box) return;
+    box.removeAttribute("data-vis");
+    var el = box;
+    box = null;
+    setTimeout(function () { el.remove(); }, 300);
+  }
+
+  function show() {
+    if (box) return;
+    box = document.createElement("aside");
+    box.className = "mw2-consent";
+    box.setAttribute("role", "dialog");
+    box.setAttribute("aria-label", "Cookies");
+    box.innerHTML =
+      '<h2>Må vi måle vores annoncer?</h2>' +
+      '<p>Vi bruger cookies fra Google til at se, om vores annoncer virker. ' +
+      'Du kan roligt sige nej – siden fungerer præcis lige så godt.</p>' +
+      '<div class="mw2-consent-row">' +
+        '<button type="button" class="mw2-consent-no">Nej tak</button>' +
+        '<button type="button" class="mw2-consent-yes">Accepter</button>' +
+      '</div>';
+    document.body.appendChild(box);
+    requestAnimationFrame(function () { box.setAttribute("data-vis", "1"); });
+
+    box.querySelector(".mw2-consent-yes").addEventListener("click", function () {
+      c.accept(); close();
+    });
+    box.querySelector(".mw2-consent-no").addEventListener("click", function () {
+      c.decline(); close();
+    });
+  }
+
+  if (!c.saved) show();
 })();
 </script>
 
