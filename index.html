@@ -64,10 +64,11 @@
 <script defer src="https://cloud.umami.is/script.js" data-website-id="ba3bad6b-c163-4bc9-8c1c-be259ec3c317"></script>
 
 <!-- ============================================================
-     Google Ads — Consent Mode v2 (basic) + konverteringsmåling.
-     Google-tagget indlæses FØRST, når brugeren aktivt har sagt ja.
-     Siger brugeren nej, hentes intet fra Google, og der sættes
-     ingen cookies. Umami ovenfor er cookieløst og kører altid.
+     Annoncemåling — Google Ads (Consent Mode v2, basic) + Meta Pixel.
+     Begge tags indlæses FØRST, når brugeren aktivt har sagt ja.
+     Siger brugeren nej, hentes intet fra hverken Google eller Meta,
+     og der sættes ingen cookies. Umami ovenfor er cookieløst og
+     kører altid.
      ============================================================ -->
 <script>
 (function () {
@@ -90,9 +91,15 @@
   var ADS_ID     = 'AW-18233500939';
   var CONV_LABEL = 'AW-18233500939/6anhCLHnqtccEIvKtPZD';
 
+  /* --- 2b) Meta Pixel (dataset-ID fra Events Manager) --------------
+     Samme princip som Google: intet hentes fra Meta, før brugeren
+     har trykket Accepter.                                          */
+  var META_ID = '1738677483847168';
+
   var CONFIGURED = ADS_ID.indexOf('X') === -1;
   var STORE_KEY  = 'momentum-samtykke';
   var loaded     = false;
+  var metaLoaded = false;
 
   function loadGoogleTag() {
     if (loaded || !CONFIGURED) return;
@@ -105,6 +112,23 @@
     gtag('config', ADS_ID);
   }
 
+  function loadMetaPixel() {
+    if (metaLoaded || META_ID.indexOf('X') !== -1) return;
+    metaLoaded = true;
+    /* Metas egen stub, men først oprettet efter samtykke */
+    var n = window.fbq = function () {
+      n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
+    };
+    if (!window._fbq) window._fbq = n;
+    n.push = n; n.loaded = true; n.version = '2.0'; n.queue = [];
+    var t = document.createElement('script');
+    t.async = true;
+    t.src = 'https://connect.facebook.net/en_US/fbevents.js';
+    document.head.appendChild(t);
+    fbq('init', META_ID);
+    fbq('track', 'PageView');
+  }
+
   function grant() {
     gtag('consent', 'update', {
       ad_storage: 'granted',
@@ -113,6 +137,7 @@
       analytics_storage: 'granted'
     });
     loadGoogleTag();
+    loadMetaPixel();
   }
 
   /* Genskab tidligere valg ved næste besøg */
@@ -139,6 +164,9 @@
       if (window.umami) { try { window.umami.track('kontakt-klik'); } catch (e) {} }
       if (loaded && CONV_LABEL.indexOf('X') === -1) {
         gtag('event', 'conversion', { send_to: CONV_LABEL });
+      }
+      if (metaLoaded && window.fbq) {
+        try { fbq('track', 'Contact'); } catch (e) {}
       }
     }
   };
@@ -378,7 +406,7 @@
     box.setAttribute("aria-label", "Cookies");
     box.innerHTML =
       '<h2>Må vi måle vores annoncer?</h2>' +
-      '<p>Vi bruger cookies fra Google til at se, om vores annoncer virker. ' +
+      '<p>Vi bruger cookies fra Google og Meta til at se, om vores annoncer virker. ' +
       'Du kan roligt sige nej – siden fungerer præcis lige så godt.</p>' +
       '<div class="mw2-consent-row">' +
         '<button type="button" class="mw2-consent-no">Nej tak</button>' +
