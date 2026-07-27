@@ -458,17 +458,6 @@ body {
   margin: 0; color: #fff;
 }
 .mw2-cta-p { color: rgba(255,255,255,0.7); font-size: 19px; line-height: 1.55; margin: 22px auto 0; max-width: 52ch; }
-.mw2-cta-link {
-  display: inline-flex; align-items: center; gap: 9px; margin-top: 40px;
-  font-size: 15px; font-weight: 600; letter-spacing: 0.01em;
-  background: var(--paper); color: var(--ink); text-decoration: none;
-  padding: 15px 30px; border-radius: 6px; white-space: nowrap;
-  transition: transform var(--dur-fast) var(--ease), background var(--dur) var(--ease);
-}
-.mw2-cta-link:hover { background: var(--bone); }
-.mw2-cta-link:active { transform: scale(0.98); }
-.mw2-cta-link i { width: 17px; height: 17px; transition: transform var(--dur) var(--ease); }
-.mw2-cta-link:hover i { transform: translateX(3px); }
 
 /* ---------- footer ---------- */
 .mw2-footer { background: var(--moss-deep); color: rgba(255,255,255,0.7); padding: 56px 0 36px; }
@@ -534,10 +523,6 @@ body { overflow-wrap: break-word; }
    soft hyphen in "Lystbåde­havnen" and splits without a hyphen. Headings may only
    break at spaces and soft hyphens. */
 h1, h2, h3 { overflow-wrap: normal; }
-
-/* CTA contact button — reuses the design's .mw2-cta-link with an inline SVG arrow */
-.mw2-cta-link svg { width: 17px; height: 17px; transition: transform var(--dur) var(--ease); }
-.mw2-cta-link:hover svg { transform: translateX(3px); }
 
 /* Footer email rendered as a real mailto link, styled to match the address */
 .mw2-footer-addr a { color: inherit; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.22); transition: color var(--dur) var(--ease), border-color var(--dur) var(--ease); }
